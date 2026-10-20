@@ -1,122 +1,130 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { ThemeProvider, CssBaseline, Box, Typography, Button, Card, CardContent } from '@mui/material';
+import theme from './config/theme';
+import BrandTitle from './components/BrandTitle';
+import EventDate from './components/EventDate';
 
-function App() {
-  const [count, setCount] = useState(0)
+// Textura de grano (ruido) como en el flyer
+const grainTexture = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")`;
 
+function PurpleWaveBackground() {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <Box
+      aria-hidden
+      sx={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 0,
+        overflow: 'hidden',
+        pointerEvents: 'none',
+        backgroundColor: '#07010C',
+        backgroundImage: `
+          radial-gradient(ellipse 60% 45% at 90% 10%, rgba(196, 140, 255, 0.55) 0%, transparent 70%),
+          radial-gradient(ellipse 55% 50% at 5% 60%, rgba(126, 34, 206, 0.55) 0%, transparent 70%),
+          radial-gradient(ellipse 50% 40% at 30% 85%, rgba(88, 28, 135, 0.45) 0%, transparent 75%),
+          linear-gradient(180deg, #12031F 0%, #07010C 55%, #050008 100%)
+        `,
+      }}
+    >
+      {/* Ola luminosa */}
+      <Box
+        component="svg"
+        viewBox="0 0 1440 900"
+        preserveAspectRatio="xMidYMid slice"
+        sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+      >
+        <defs>
+          <linearGradient id="waveFill" x1="0" y1="0" x2="1" y2="0.6">
+            <stop offset="0%" stopColor="#2A0845" stopOpacity="0.2" />
+            <stop offset="45%" stopColor="#5B1F99" stopOpacity="0.55" />
+            <stop offset="80%" stopColor="#A86BF0" stopOpacity="0.85" />
+            <stop offset="100%" stopColor="#D9B8FF" stopOpacity="0.95" />
+          </linearGradient>
+          <linearGradient id="waveShade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#07010C" stopOpacity="0.9" />
+            <stop offset="60%" stopColor="#07010C" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id="rimGlow" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#F5C2FF" stopOpacity="0" />
+            <stop offset="25%" stopColor="#F9D4FF" stopOpacity="0.8" />
+            <stop offset="70%" stopColor="#F0C8FF" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.6" />
+          </linearGradient>
+          <filter id="blurSoft" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="14" />
+          </filter>
+          <filter id="blurRim" x="-10%" y="-50%" width="120%" height="200%">
+            <feGaussianBlur stdDeviation="4" />
+          </filter>
+        </defs>
 
-      <div className="ticks"></div>
+        {/* Cuerpo de la ola */}
+        <path
+          d="M0,0 H1440 V430 C1330,540 1120,560 900,470 C690,385 470,250 230,265 C130,272 60,290 0,305 Z"
+          fill="url(#waveFill)"
+          filter="url(#blurSoft)"
+        />
+        {/* Sombra superior para profundidad */}
+        <path
+          d="M0,0 H1440 V430 C1330,540 1120,560 900,470 C690,385 470,250 230,265 C130,272 60,290 0,305 Z"
+          fill="url(#waveShade)"
+        />
+        {/* Borde iluminado */}
+        <path
+          d="M0,305 C60,290 130,272 230,265 C470,250 690,385 900,470 C1120,560 1330,540 1440,430"
+          fill="none"
+          stroke="url(#rimGlow)"
+          strokeWidth="6"
+          filter="url(#blurRim)"
+        />
+        <path
+          d="M0,305 C60,290 130,272 230,265 C470,250 690,385 900,470 C1120,560 1330,540 1440,430"
+          fill="none"
+          stroke="url(#rimGlow)"
+          strokeWidth="1.5"
+          opacity="0.8"
+        />
+      </Box>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {/* Grano */}
+      <Box
+        sx={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: grainTexture,
+          opacity: 0.12,
+          mixBlendMode: 'overlay',
+        }}
+      />
+    </Box>
+  );
 }
 
-export default App
+export default function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <PurpleWaveBackground />
+      <Box sx={{ position: 'relative', zIndex: 1, minHeight: '100vh', p: 4, display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center' }}>
+        <BrandTitle />
+
+        <Card sx={{ maxWidth: 400, textAlign: 'center', p: 2 }}>
+          <CardContent>
+            <Typography variant="h5" color="primary.light" gutterBottom>
+              2º Congreso Jóvenes
+            </Typography>
+            <EventDate scale={0.6} />
+          </CardContent>
+        </Card>
+
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Button variant="contained" color="primary">
+            Inscribirme
+          </Button>
+          <Button variant="contained" color="secondary">
+            Ver Cronograma
+          </Button>
+        </Box>
+      </Box>
+    </ThemeProvider>
+  );
+}
