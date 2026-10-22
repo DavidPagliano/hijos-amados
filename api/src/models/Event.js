@@ -4,7 +4,7 @@ const eventSchema = new mongoose.Schema(
     {
         nameAndLastName: {type: String, required: true, trim: true},
         isAssisted: {type: Boolean, required: true},
-        methodPayment: {type: String, required: true, trim: true, enum: ['efectivo', 'transferencia']},
+        methodPayment: {type: String, required: true, trim: true, enum: ['efectivo', 'transferencia', 'no pagos']},
         totalPayment: {type: Number, required: true, min: 0},
         paidAmount: {
             type: Number,
